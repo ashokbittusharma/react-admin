@@ -8,7 +8,7 @@ import {
 
 import MenuIcon from "@mui/icons-material/Menu";
 
-import { useAuth } from "../auth/AuthContext";
+import useAuth from "../../../features/auth/context/useAuth";
 
 export default function Header({
     handleDrawerToggle,

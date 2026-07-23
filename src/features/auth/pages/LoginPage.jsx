@@ -1,17 +1,12 @@
 import { useState } from "react";
 import { Box, Button, Card, CardContent, TextField, Typography } from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
-import api from "../../api/axios";
-import { useAuth } from "../../auth/AuthContext";
+import api from "../../../api/axios";
+import useAuth from "../context/useAuth";
 
 export default function LoginPage() {
-    const { isAuthenticated } = useAuth();
-
-    if (isAuthenticated) {
-        return <Navigate to="/" replace />;
-    }
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { isAuthenticated, login } = useAuth();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -30,12 +25,16 @@ export default function LoginPage() {
             });
             await login(reponse.data.token);
             navigate('/');
-        } catch (error) {
+        } catch {
             alert('Invalid Credentials');
         } finally {
             setLoading(false);
         }
     };
+
+    if (isAuthenticated) {
+        return <Navigate to="/" replace />;
+    }
 
     return (
         <Box sx={{
@@ -73,7 +72,7 @@ export default function LoginPage() {
                             fullWidth
                             type="submit"
                             variant="contained"
-                            fullWidth
+                            disabled={loading}
                             sx={{ mt: 3 }} >
                             {loading ? "Logging In..." : "Login"}
                         </Button>

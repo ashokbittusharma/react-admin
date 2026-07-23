@@ -21,9 +21,11 @@ export default class BaseService {
     }
 
     async create(data) {
-        const response = await api.post(
-            this.resource, data
-        );
+        const response = await api.post(this.resource, data, {
+            headers: {
+                "Content-Type": "application/ld+json",
+            },
+        });
         return response.data;
     }
 

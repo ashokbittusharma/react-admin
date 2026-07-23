@@ -7,15 +7,13 @@ import {
     CircularProgress,
 } from "@mui/material";
 
-import {
-    Inventory,
-    Category,
-    ShoppingCart,
-    People,
-    CurrencyRupee,
-} from "@mui/icons-material";
+import Inventory from "@mui/icons-material/Inventory";
+import Category from "@mui/icons-material/Category";
+import ShoppingCart from "@mui/icons-material/ShoppingCart";
+import People from "@mui/icons-material/People";
+import CurrencyRupee from "@mui/icons-material/CurrencyRupee";
 
-import { getDashboard } from "../../services/dashboardService";
+import { getDashboard } from "../services/dashboardService";
 
 export default function DashboardPage() {
     const [dashboard, setDashboard] = useState(null);

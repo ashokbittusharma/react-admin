@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import { Box, Toolbar } from "@mui/material";
 
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
+import Sidebar from "../../shared/components/layout/Sidebar";
+import Header from "../../shared/components/layout/Header";
 
 const drawerWidth = 260;
 

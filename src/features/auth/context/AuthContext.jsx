@@ -1,7 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import api from "../api/axios";
-
-const AuthContext = createContext();
+import { useEffect, useState } from "react";
+import api from "../../../api/axios";
+import AuthContext from "./authContext";
 
 export function AuthProvider({ children }) {
     const [token, setToken] = useState(
@@ -25,9 +24,8 @@ export function AuthProvider({ children }) {
 
     const login = async (jwt) => {
         localStorage.setItem('token', jwt);
+        setLoading(true);
         setToken(jwt);
-
-        await fetchProfile();
     }
 
     const logout = () => {
@@ -45,7 +43,7 @@ export function AuthProvider({ children }) {
         } else {
             setLoading(false);
         }
-    }, []);
+    }, [token]);
 
     return <AuthContext.Provider
         value={{
@@ -59,8 +57,4 @@ export function AuthProvider({ children }) {
     >
         {children}
     </AuthContext.Provider>
-}
-
-export function useAuth() {
-    return useContext(AuthContext);
 }

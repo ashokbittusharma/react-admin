@@ -1,4 +1,6 @@
+import { useState } from "react";
 import {
+    Collapse,
     Drawer,
     Toolbar,
     List,
@@ -10,9 +12,10 @@ import {
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CategoryIcon from "@mui/icons-material/Category";
-import InventoryIcon from "@mui/icons-material/Inventory";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import StoreIcon from "@mui/icons-material/Store";
+import PeopleIcon from "@mui/icons-material/People";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { Link, useLocation } from "react-router-dom";
 
@@ -30,19 +33,9 @@ const menuItems = [
         path: "/categories"
     },
     {
-        text: "Brand",
+        text: "Brands",
         icon: <StoreIcon />,
         path: "/brands"
-    },
-    {
-        text: "Products",
-        icon: <InventoryIcon />,
-        path: "/products"
-    },
-    {
-        text: "Orders",
-        icon: <ShoppingCartIcon />,
-        path: "/orders"
     }
 ];
 
@@ -51,6 +44,7 @@ export default function Sidebar({
     handleDrawerToggle
 }) {
     const location = useLocation();
+    const [usersOpen, setUsersOpen] = useState(location.pathname.startsWith("/users"));
 
     const drawer = (
         <>
@@ -74,6 +68,15 @@ export default function Sidebar({
                         <ListItemText primary={item.text} />
                     </ListItemButton>
                 ))}
+                <ListItemButton onClick={() => setUsersOpen((open) => !open)} selected={location.pathname.startsWith("/users")}>
+                    <ListItemIcon><PeopleIcon /></ListItemIcon><ListItemText primary="Users" />
+                    {usersOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </ListItemButton>
+                <Collapse in={usersOpen} timeout="auto" unmountOnExit><List component="div" disablePadding>
+                    {[["All Users", "/users"], ["Administrators", "/users/ROLE_ADMIN"], ["Managers", "/users/ROLE_MANAGER"], ["Customers", "/users/ROLE_CUSTOMER"]].map(([text, path]) => (
+                        <ListItemButton key={path} component={Link} to={path} selected={location.pathname === path} sx={{ pl: 4 }}><ListItemText primary={text} /></ListItemButton>
+                    ))}
+                </List></Collapse>
             </List>
         </>
     )
